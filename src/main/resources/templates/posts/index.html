@@ -1,45 +1,57 @@
 <!DOCTYPE html>
-    <html xmlns:th="http://www.thymeleaf.org"
-          xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" >
-    <head lang="en">
-        <meta charset="UTF-8"/>
-        <title>Acebook</title>
-        <link rel="stylesheet" href="/main.css" />
-        <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
-        <link th:rel="stylesheet" th:href="@{webjars/font-awesome/5.11.2/css/all.css} "/>
-        <link th:rel="stylesheet" th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>
-    </head>
-    <body>
-    <div th:insert="fragments/fragments :: NavBar"></div>
-    <h1>Posts</h1>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Acebook</title>
+    <link rel="stylesheet" href="/main.css"/>
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{webjars/font-awesome/5.11.2/css/all.css} "/>
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap4-toggle/bootstrap4-toggle.min.css}"/>
+</head>
+<body>
+<div th:insert="fragments/fragments :: NavBar"></div>
+<h1>Posts</h1>
 
-    <div sec:authorize="isAuthenticated()">
-        Signed in as <span sec:authentication="name"></span>
-    </div>
+<div sec:authorize="isAuthenticated()">
+    Signed in as <span sec:authentication="name"></span>
+</div>
 
-    <form action="#" th:action="@{/posts}" th:object="${post}" method="post">
-        <p>Content: <input type="text" th:field="*{content}" /></p>
-        <p><input type="submit" id="Submit_button" value="Submit" /> <input type="reset" value="Reset" /></p>
-    </form>
+<form action="#" th:action="@{/posts}" th:object="${post}" method="post">
+    <p>Content: <input type="text" th:field="*{content}"/></p>
+    <p><input type="submit" id="Submit_button" value="Submit"/> <input type="reset" value="Reset"/></p>
+</form>
 
-    <div class="row" th:fragment="postCard" xmlns:th="http://www.thymeleaf.org">
-        <div th:each="post: ${posts}" class="col-sm-4">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${post.content}">Post</h5>
-                    <p class="card-text" th:text="${post.getFormattedDate()}">Date</p>
-                    <p class="card-text" th:text="${post.getUsername()}">Username</p>
-                    <p id ="likes" class="card-text" th:text="${post.getLikes()}">Likes</p>
-                    <form action="#" th:action="@{/likes}" th:object="${post}" method="post">
-                        <p>Content: <input type="text" th:field="*{content}" /></p>
-                        <p><input type="submit" id="Likes_button" value="Submit" /></p>
-                    </form>
-                    <p class="card-text" th:text="${post.getId()}" hidden >Id</p>
-
-                </div>
+<div class="row" th:fragment="postCard" xmlns:th="http://www.thymeleaf.org">
+    <div th:each="post: ${posts}" class="col-sm-4">
+        <div class="card mb-3">
+            <div class="card-body">
+                <table>
+                    <tr>
+                        <h5 class="card-title" th:text="${post.content}">Post</h5>
+                    </tr>
+                    <tr>
+                        <td><label class="card-text">Date:</label></td>
+                        <td><p class="card-text" th:text="${post.getFormattedDate()}"></p></td>
+                    </tr>
+                    <tr>
+                        <td><label class="card-text">User:</label></td>
+                        <td><p class="card-text" th:text="${post.getUsername()}"></p></td>
+                    </tr>
+                    <tr>
+                        <td><label class="card-text">Likes:</label></td>
+                        <td><p id="likes" class="card-text" th:text="${post.getLikes()}"></p></td>
+                    </tr>
+                    <tr>
+                        <form action="#" th:action="@{/likes}" th:object="${post}" method="post">
+                            <p><input type="submit" id="Likes_button" value="Like"/></p>
+                        </form>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
+</div>
 
-    </body>
+</body>
 </html>
