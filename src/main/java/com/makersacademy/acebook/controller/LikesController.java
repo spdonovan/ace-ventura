@@ -20,22 +20,6 @@ import java.util.Collections;
 
 @Controller
 public class LikesController {
-
-
-    @Autowired
-    PostRepository repository;
-    PostList postArrayList = new PostList();
-
-    @GetMapping("/likes")
-    public String index(Model model) {
-        System.out.println("----------------->index");
-        postArrayList.setList(repository.findAll());
-        model.addAttribute("posts", postArrayList.postArrayList);
-        model.addAttribute("post", new Post());
-        model.addAttribute("showLogout", true);
-        return "posts/index";
-    }
-
     @PostMapping("/likes")
     public RedirectView create(@ModelAttribute Post post) {
         System.out.println("------------------->create");
